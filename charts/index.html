@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charts</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: rgb(19, 4, 50);
+        }
+    </style>
+</head>
+
+<body>
+    <canvas></canvas>
+    <script>
+        const canvas = document.querySelector('canvas')
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        const ctx = canvas.getContext('2d')
+        const data = [
+            300,
+            360,
+            480,
+            290,
+            250,
+            330,
+            265,
+            402,
+            367,
+            276,
+            230
+        ]
+        ctx.beginPath()
+        ctx.strokeStyle = "white"
+        ctx.moveTo(0, window.innerHeight / 2)
+        ctx.lineWidth = 3
+        data.forEach((item, index) => {
+            const distance = 0 + (canvas.width / data.length * (index + 1))
+            ctx.lineTo(distance, item)
+        })
+        ctx.fillStyle = 'rgba(7, 179, 139, 0.4)'
+        ctx.lineTo(canvas.width, canvas.height)
+        ctx.lineTo(0, canvas.height)
+        ctx.lineTo(0, data[0])
+        ctx.fill()
+        ctx.stroke()
+    </script>
+</body>
+
+</html>
