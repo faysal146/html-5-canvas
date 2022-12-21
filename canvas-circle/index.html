@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Circle</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: rgb(10, 10, 57);
+        }
+    </style>
+</head>
+
+<body>
+    <canvas></canvas>
+    <script>
+        const canvas = document.querySelector('canvas')
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        const ctx = canvas.getContext('2d')
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth
+            canvas.height = window.innerHeight
+        })
+
+
+        class Circle {
+            constructor(x, y, radius, dx, dy, color) {
+                this.x = x
+                this.y = y
+                this.radius = radius
+                this.dx = dx
+                this.dy = dy
+                this.color = color
+            }
+            draw() {
+                ctx.beginPath()
+                ctx.fillStyle = this.buildColor()
+                ctx.arc(this.x, this.y, this.radius, Math.PI * 2, false)
+                ctx.fill()
+                return this
+            }
+            update(x, y) {
+                if (x + this.radius > window.innerWidth || x - this.radius < 0) {
+                    this.dx = -this.dx
+                }
+                if (y + this.radius > window.innerHeight || y - this.radius < 0) {
+                    this.dy = -this.dy
+                }
+                this.x += this.dx
+                this.y += this.dy
+                this.draw()
+            }
+            buildColor() {
+                const { r, g, b, a, } = this.color
+                return `rgba(${r},${g}, ${b}, ${a})`
+            }
+            static getColor() {
+                return {
+                    r: Math.round(Math.random() * 255),
+                    g: Math.round(Math.random() * 255),
+                    b: Math.round(Math.random() * 255),
+                    a: Math.round(Math.random() * 10)
+                }
+            }
+        }
+
+        const circleItems = []
+        for (let i = 0; i < 50; i++) {
+            const radius = Math.round(Math.random() * 30)
+            let x = Math.random() * (window.innerWidth - radius * 2) + radius
+            let y = Math.random() * (window.innerHeight - radius * 2) + radius
+            let dx = Math.round(Math.random() * 8)
+            let dy = Math.round(Math.random() * 8)
+            circleItems.push(new Circle(x, y, radius, dx, dy, Circle.getColor()))
+        }
+        function animate() {
+            requestAnimationFrame(animate)
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+            circleItems.forEach(item => {
+                item.update(item.x, item.y)
+            })
+        }
+        animate()
+    </script>
+</body>
+
+</html>
