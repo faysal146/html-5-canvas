@@ -41,7 +41,6 @@
                 ctx.fillStyle = this.buildColor()
                 ctx.arc(this.x, this.y, this.radius, Math.PI * 2, false)
                 ctx.fill()
-                return this
             }
             update(x, y) {
                 if (x + this.radius > window.innerWidth || x - this.radius < 0) {
